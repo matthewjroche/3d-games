@@ -1,0 +1,12 @@
+npm init -y
+
+
+npm install three
+
+
+//create html and js
+
+npm install -g live-server
+
+
+live-server
