@@ -1,4 +1,16 @@
 import * as THREE from 'https://threejs.org/build/three.module.js';
+import {GUI} from 'dat.gui';
+
+//initialise GUI
+const gui = new GUI();
+var obj = { add:function(){ console.log("clicked") }};
+
+gui.add(obj,'add').name('9x9 gobban');
+gui.add(obj,'add').name('13x13 gobban');
+gui.add(obj,'add').name('19x19 gobban');
+
+
+
 
 
 const scene = new THREE.Scene();
