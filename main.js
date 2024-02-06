@@ -1,6 +1,24 @@
 import * as THREE from 'https://threejs.org/build/three.module.js';
 import {GUI} from 'dat.gui';
 
+//initialise scene
+const scene = new THREE.Scene();
+
+//create skybox 
+var blossom=new THREE.TextureLoader().load('/textures/blossom.jpg');
+var hills=new THREE.TextureLoader().load('/textures/hills.jpg');
+var nebula=new THREE.TextureLoader().load('/textures/nebula.jpg');
+var sunset=new THREE.TextureLoader().load('/textures/sunset.jpg');
+
+var skybox= {
+    blossom:'/textures/blossom.jpg',
+    nebula:'/textures/nebula.jpg',
+    sunset:'/textures/sunset.jpg',
+}
+
+
+scene.background=nebula;
+
 //initialise GUI
 const gui = new GUI();
 var obj = { add:function(){ console.log("clicked") }};
@@ -9,14 +27,18 @@ gui.add(obj,'add').name('9x9 gobban');
 gui.add(obj,'add').name('13x13 gobban');
 gui.add(obj,'add').name('19x19 gobban');
 
+// gui.add(obj, 'sky', textureOptions).name('Background Texture');
+
+
+gui.add(scene,'background',{blossom:'blossom',nebula:'nebula'}).name('Toggle background').listen();
+
+//create toggle skybox function
+// function skyboxtoggle()
 
 
 
 
-const scene = new THREE.Scene();
-
-
-
+//setup camera
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 
