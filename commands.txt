@@ -13,3 +13,6 @@ live-server
 
 npx vite
 
+
+npm install dat.gui
+
