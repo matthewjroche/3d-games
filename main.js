@@ -1,74 +1,79 @@
-import * as THREE from 'https://threejs.org/build/three.module.js';
-import {GUI} from 'dat.gui';
+import * as THREE from "https://threejs.org/build/three.module.js";
+import { GUI } from "dat.gui";
 
 //initialise scene
 const scene = new THREE.Scene();
 
-//create skybox 
-var blossom=new THREE.TextureLoader().load('/textures/blossom.jpg');
-var hills=new THREE.TextureLoader().load('/textures/hills.jpg');
-var nebula=new THREE.TextureLoader().load('/textures/nebula.jpg');
-var sunset=new THREE.TextureLoader().load('/textures/sunset.jpg');
+//create settings
+var settings = {
+  board_size: ["9x9", "13x13", "19x19"],
+  background_texture: nebula,
+};
 
-var skybox= {
-    blossom:'/textures/blossom.jpg',
-    nebula:'/textures/nebula.jpg',
-    sunset:'/textures/sunset.jpg',
-}
+//create skybox
+var blossom = new THREE.TextureLoader().load("/textures/blossom.jpg");
+var nebula = new THREE.TextureLoader().load("/textures/nebula.jpg");
+var sunset = new THREE.TextureLoader().load("/textures/sunset.jpg");
 
+var skybox = {
+  blossom: "/textures/blossom.jpg",
+  nebula: "/textures/nebula.jpg",
+  sunset: "/textures/sunset.jpg",
+};
 
-scene.background=nebula;
+scene.background = nebula;
 
 //initialise GUI
 const gui = new GUI();
-var obj = { add:function(){ console.log("clicked") }};
+var obj = {
+  add: function () {
+    console.log("clicked");
+  },
+};
 
-gui.add(obj,'add').name('9x9 gobban');
-gui.add(obj,'add').name('13x13 gobban');
-gui.add(obj,'add').name('19x19 gobban');
+gui
+  .add(settings, "board_size", ["9x9", "13x13", "19x19"])
+  .name("Board size")
+  .listen();
 
-// gui.add(obj, 'sky', textureOptions).name('Background Texture');
-
-
-gui.add(scene,'background',{blossom:'blossom',nebula:'nebula'}).name('Toggle background').listen();
-
-//create toggle skybox function
-// function skyboxtoggle()
-
-
-
+gui
+  .add(scene, "background", { blossom: "blossom", nebula: "nebula" })
+  .name("Toggle background")
+  .listen();
 
 //setup camera
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
+const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
 
 const renderer = new THREE.WebGLRenderer();
 
 const geometry = new THREE.BoxGeometry();
 const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 
-
-const cube = new THREE.Mesh(geometry, material)
+const cube = new THREE.Mesh(geometry, material);
 
 scene.add(cube);
 
-
 camera.position.z = 5;
 
-        // Set up the renderer
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
+// Set up the renderer
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
-        // Render the scene
-        function animate() {
-            requestAnimationFrame(animate);
+// Render the scene
+function animate() {
+  requestAnimationFrame(animate);
 
-            // Rotate the cube
-            cube.rotation.x += 0.01;
-            cube.rotation.y += 0.01;
+  // Rotate the cube
+  cube.rotation.x += 0.01;
+  cube.rotation.y += 0.01;
 
-            // Render the scene
-            renderer.render(scene, camera);
-        }
+  // Render the scene
+  renderer.render(scene, camera);
+}
 
-        animate();
+animate();
