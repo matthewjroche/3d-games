@@ -17,11 +17,6 @@ scene.background = new THREE.Color(settings.background_colour);
 const gui = new GUI();
 
 gui
-  .add(settings, "board_size", ["9x9", "13x13", "19x19"])
-  .name("Board size")
-  .listen();
-
-gui
   .addColor(settings, "background_colour")
   .onChange(function (value) {
     scene.background.set(value);
@@ -34,14 +29,13 @@ const camera = new THREE.PerspectiveCamera(
   50,
   window.innerWidth / window.innerHeight,
   0.1,
-  10000 
+  10000
 );
 camera.position.y = 5;
 camera.position.z = 5;
 camera.lookAt(0, 0, 0);
 // camera.position.set( 0, 20, 100 );
 // controls.update();
-
 
 //RENDERER
 const renderer = new THREE.WebGLRenderer();
@@ -50,7 +44,6 @@ document.body.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableZoom = false;
-
 
 //WINDOW RESIZE
 window.addEventListener("resize", onWindowResize, false);
@@ -65,7 +58,6 @@ function onWindowResize() {
 
 // Render the scene
 function animate() {
-
   requestAnimationFrame(animate);
   controls.update();
 
@@ -79,18 +71,40 @@ function animate() {
 
 animate();
 
-//LOAD TEXTURES
-const texture1 = new THREE.TextureLoader().load('/textures/19x19.png' );
+// 9x9 board
+const texture2 = new THREE.TextureLoader().load("/textures/9x9.png");
+const geometry2 = new THREE.BoxGeometry(4.5, 0.1, 4.5);
+const material2 = new THREE.MeshBasicMaterial({ map: texture2 });
+const cube2 = new THREE.Mesh(geometry2, material2);
 
+// 13x13 board
+const texture3 = new THREE.TextureLoader().load("/textures/13x13.png");
+const geometry3 = new THREE.BoxGeometry(4.5, 0.1, 4.5);
+const material3 = new THREE.MeshBasicMaterial({ map: texture3 });
+const cube3 = new THREE.Mesh(geometry3, material3);
 
-
-
-//CUBE
+// 19x19 board
+const texture1 = new THREE.TextureLoader().load("/textures/19x19.png");
 const geometry = new THREE.BoxGeometry(4.5, 0.1, 4.5);
-// const material = new THREE.MeshBasicMaterial({ color: "#e09d38" });
-const material = new THREE.MeshBasicMaterial( { map:texture1 } );
-
-
+const material = new THREE.MeshBasicMaterial({ map: texture1 });
 const cube = new THREE.Mesh(geometry, material);
 
 scene.add(cube);
+
+gui
+  .add(settings, "board_size", ["9x9", "13x13", "19x19"])
+  .onChange(function (board_size) {
+    scene.remove(cube);
+
+    if (board_size == "19x19") {
+      scene.remove(cube, cube2, cube3);
+      scene.add(cube);
+    } else if (board_size == "13x13") {
+      scene.remove(cube, cube2, cube3);
+      scene.add(cube3);
+    } else if (board_size == "9x9") {
+      scene.remove(cube, cube2, cube3);
+      scene.add(cube2);
+    }
+  })
+  .name("Board size");
