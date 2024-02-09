@@ -1,6 +1,7 @@
 import * as THREE from "https://threejs.org/build/three.module.js";
 import { GUI } from "dat.gui";
 import { OrbitControls } from "/node_modules/three/examples/jsm/controls/OrbitControls.js";
+import { STLLoader } from "/node_modules/three/examples/jsm/loaders/STLLoader";
 
 //SCENE
 const scene = new THREE.Scene();
@@ -9,6 +10,24 @@ const scene = new THREE.Scene();
 var settings = {
   board_size: ["9x9", "13x13", "19x19"],
   background_colour: "#22CBFF",
+  blackstone: function () {
+    //STL 3D MODEL LOADER (STONES)
+    const loader = new STLLoader();
+    loader.load("/models/gostone.stl", function (blackstone) {
+      const black = new THREE.MeshBasicMaterial();
+      const mesh = new THREE.Mesh(blackstone, black);
+      scene.add(mesh).set(x, z);
+    });
+  },
+  whitestone: function () {
+    //STL 3D MODEL LOADER (STONES)
+    const loader = new STLLoader();
+    loader.load("/models/gostone.stl", function (whitestone) {
+      const black = new THREE.MeshBasicMaterial();
+      const mesh = new THREE.Mesh(whitestone, black);
+      scene.add(mesh).set(x, z);
+    });
+  },
 };
 
 scene.background = new THREE.Color(settings.background_colour);
@@ -91,6 +110,7 @@ const cube = new THREE.Mesh(geometry, material);
 
 scene.add(cube);
 
+//BOARD SIZE GUI
 gui
   .add(settings, "board_size", ["9x9", "13x13", "19x19"])
   .onChange(function (board_size) {
@@ -108,3 +128,6 @@ gui
     }
   })
   .name("Board size");
+
+gui.add(settings, "blackstone").name("Add Black Stone");
+gui.add(settings, "whitestone").name("Add White Stone");
