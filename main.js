@@ -7,21 +7,10 @@ const scene = new THREE.Scene();
 //create settings
 var settings = {
   board_size: ["9x9", "13x13", "19x19"],
-  background_texture: nebula,
+  background_colour: "#22CBFF",
 };
 
-//create skybox
-var blossom = new THREE.TextureLoader().load("/textures/blossom.jpg");
-var nebula = new THREE.TextureLoader().load("/textures/nebula.jpg");
-var sunset = new THREE.TextureLoader().load("/textures/sunset.jpg");
-
-var skybox = {
-  blossom: "/textures/blossom.jpg",
-  nebula: "/textures/nebula.jpg",
-  sunset: "/textures/sunset.jpg",
-};
-
-scene.background = nebula;
+scene.background = new THREE.Color(settings.background_colour);
 
 //initialise GUI
 const gui = new GUI();
@@ -37,8 +26,11 @@ gui
   .listen();
 
 gui
-  .add(scene, "background", { blossom: "blossom", nebula: "nebula" })
-  .name("Toggle background")
+  .addColor(settings, "background_colour")
+  .onChange(function (value) {
+    scene.background.set(value);
+  })
+  .name("Background colour")
   .listen();
 
 //setup camera
