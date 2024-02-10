@@ -2,7 +2,9 @@ import * as THREE from "https://threejs.org/build/three.module.js";
 import { GUI } from "dat.gui";
 import { OrbitControls } from "/node_modules/three/examples/jsm/controls/OrbitControls.js";
 import { STLLoader } from "/node_modules/three/examples/jsm/loaders/STLLoader";
+import { DragControls } from '/node_modules/three/examples/jsm/controls/DragControls.js';
 
+var objects=[];
 //SCENE
 const scene = new THREE.Scene();
 
@@ -10,7 +12,6 @@ const scene = new THREE.Scene();
 var settings = {
   board_size: ["9x9", "13x13", "19x19"],
   background_colour: "#22CBFF",
-
   blackstone: function () {
     //STL 3D MODEL LOADER (STONES)
     const loader = new STLLoader();
@@ -25,6 +26,8 @@ var settings = {
       blackmesh.rotateX(90);
       blackmesh.position.set(0.1,0.1,0.1)
       scene.add(blackmesh);
+      objects.push(blackmesh);
+      console.log(objects);
     });
   },
 
@@ -38,11 +41,14 @@ var settings = {
       whitemesh.scale.set(0.01,0.01,0.01)
       whitemesh.rotateX(90);
       whitemesh.position.set(0.1,0.1,0.1)
-
       scene.add(whitemesh);
+      objects.push(whitemesh);
+
     });
   },
 };
+
+
 
 scene.background = new THREE.Color(settings.background_colour);
 
@@ -145,3 +151,10 @@ gui
 
 gui.add(settings, "blackstone").name("Add Black Stone");
 gui.add(settings, "whitestone").name("Add White Stone");
+
+var objects=[]
+
+//DRAG AND DROP CONTROLS
+const dndcontrols = new DragControls( objects, camera, renderer.domElement );
+dndcontrols.addEventListener( 'dragstart', function () { controls.enabled = false;} );
+dndcontrols.addEventListener( 'dragend', function () { controls.enabled = true; } );
