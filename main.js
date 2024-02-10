@@ -2,9 +2,9 @@ import * as THREE from "https://threejs.org/build/three.module.js";
 import { GUI } from "dat.gui";
 import { OrbitControls } from "/node_modules/three/examples/jsm/controls/OrbitControls.js";
 import { STLLoader } from "/node_modules/three/examples/jsm/loaders/STLLoader";
-import { DragControls } from '/node_modules/three/examples/jsm/controls/DragControls.js';
+import { DragControls } from "/node_modules/three/examples/jsm/controls/DragControls.js";
 
-var objects=[];
+var objects = [];
 //SCENE
 const scene = new THREE.Scene();
 
@@ -15,16 +15,14 @@ var settings = {
   blackstone: function () {
     //STL 3D MODEL LOADER (STONES)
     const loader = new STLLoader();
-    loader.load("/models/gostone.stl",
-    function (blackstone) {
+    loader.load("/models/gostone.stl", function (blackstone) {
       const black = new THREE.MeshBasicMaterial({
         color: 0x000,
       });
       const blackmesh = new THREE.Mesh(blackstone, black);
-      // blackmesh.scale(blackmesh.scale.x*2,blackmesh.scale.y*2,blackmesh.scale.z*2);
-      blackmesh.scale.set(0.01,0.01,0.01)
+      blackmesh.scale.set(0.01, 0.01, 0.01);
       blackmesh.rotateX(90);
-      blackmesh.position.set(0.1,0.1,0.1)
+      blackmesh.position.set(0.1, 0.1, 0.1);
       scene.add(blackmesh);
       objects.push(blackmesh);
       console.log(objects);
@@ -34,21 +32,17 @@ var settings = {
   whitestone: function () {
     //STL 3D MODEL LOADER (STONES)
     const loader = new STLLoader();
-    loader.load("/models/gostone.stl",
-    function (whitestone) {
+    loader.load("/models/gostone.stl", function (whitestone) {
       const white = new THREE.MeshBasicMaterial();
       const whitemesh = new THREE.Mesh(whitestone, white);
-      whitemesh.scale.set(0.01,0.01,0.01)
+      whitemesh.scale.set(0.01, 0.01, 0.01);
       whitemesh.rotateX(90);
-      whitemesh.position.set(0.1,0.1,0.1)
+      whitemesh.position.set(0.1, 0.1, 0.1);
       scene.add(whitemesh);
       objects.push(whitemesh);
-
     });
   },
 };
-
-
 
 scene.background = new THREE.Color(settings.background_colour);
 
@@ -73,14 +67,13 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.y = 5;
 camera.position.z = 5;
 camera.lookAt(0, 0, 0);
-// camera.position.set( 0, 20, 100 );
-// controls.update();
 
 //RENDERER
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+//ORBIT CONTROLS
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableZoom = false;
 
@@ -90,24 +83,14 @@ function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
-  // render()
 }
-
-//RAYCASTING
 
 // Render the scene
 function animate() {
   requestAnimationFrame(animate);
   controls.update();
-
-  // Rotate the cube
-  //   cube.rotation.x += 0.01;
-  //   cube.rotation.y += 0.01;
-
-  // Render the scene
   renderer.render(scene, camera);
 }
-
 animate();
 
 // 9x9 board
@@ -152,9 +135,13 @@ gui
 gui.add(settings, "blackstone").name("Add Black Stone");
 gui.add(settings, "whitestone").name("Add White Stone");
 
-var objects=[]
+var objects = [];
 
 //DRAG AND DROP CONTROLS
-const dndcontrols = new DragControls( objects, camera, renderer.domElement );
-dndcontrols.addEventListener( 'dragstart', function () { controls.enabled = false;} );
-dndcontrols.addEventListener( 'dragend', function () { controls.enabled = true; } );
+const dndcontrols = new DragControls(objects, camera, renderer.domElement);
+dndcontrols.addEventListener("dragstart", function () {
+  controls.enabled = false;
+});
+dndcontrols.addEventListener("dragend", function () {
+  controls.enabled = true;
+});
