@@ -10,22 +10,36 @@ const scene = new THREE.Scene();
 var settings = {
   board_size: ["9x9", "13x13", "19x19"],
   background_colour: "#22CBFF",
+
   blackstone: function () {
     //STL 3D MODEL LOADER (STONES)
     const loader = new STLLoader();
-    loader.load("/models/gostone.stl", function (blackstone) {
-      const black = new THREE.MeshBasicMaterial();
-      const mesh = new THREE.Mesh(blackstone, black);
-      scene.add(mesh).set(x, z);
+    loader.load("/models/gostone.stl",
+    function (blackstone) {
+      const black = new THREE.MeshBasicMaterial({
+        color: 0x000,
+      });
+      const blackmesh = new THREE.Mesh(blackstone, black);
+      // blackmesh.scale(blackmesh.scale.x*2,blackmesh.scale.y*2,blackmesh.scale.z*2);
+      blackmesh.scale.set(0.01,0.01,0.01)
+      blackmesh.rotateX(90);
+      blackmesh.position.set(0.1,0.1,0.1)
+      scene.add(blackmesh);
     });
   },
+
   whitestone: function () {
     //STL 3D MODEL LOADER (STONES)
     const loader = new STLLoader();
-    loader.load("/models/gostone.stl", function (whitestone) {
-      const black = new THREE.MeshBasicMaterial();
-      const mesh = new THREE.Mesh(whitestone, black);
-      scene.add(mesh).set(x, z);
+    loader.load("/models/gostone.stl",
+    function (whitestone) {
+      const white = new THREE.MeshBasicMaterial();
+      const whitemesh = new THREE.Mesh(whitestone, white);
+      whitemesh.scale.set(0.01,0.01,0.01)
+      whitemesh.rotateX(90);
+      whitemesh.position.set(0.1,0.1,0.1)
+
+      scene.add(whitemesh);
     });
   },
 };
