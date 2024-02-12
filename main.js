@@ -21,8 +21,8 @@ var settings = {
       });
       const blackmesh = new THREE.Mesh(blackstone, black);
       blackmesh.scale.set(0.01, 0.01, 0.01);
-      blackmesh.rotateX(90);
-      blackmesh.position.set(0.1, 0.1, 0.1);
+      blackmesh.rotateX(80);
+      blackmesh.position.set(0.1, 0.05, 0.1);
       scene.add(blackmesh);
       objects.push(blackmesh);
       console.log(objects);
@@ -36,8 +36,8 @@ var settings = {
       const white = new THREE.MeshBasicMaterial();
       const whitemesh = new THREE.Mesh(whitestone, white);
       whitemesh.scale.set(0.01, 0.01, 0.01);
-      whitemesh.rotateX(90);
-      whitemesh.position.set(0.1, 0.1, 0.1);
+      whitemesh.rotateX(80);
+      whitemesh.position.set(0.1, 0.05, 0);
       scene.add(whitemesh);
       objects.push(whitemesh);
     });
@@ -138,16 +138,19 @@ gui.add(settings, "whitestone").name("Add White Stone");
 var objects = [];
 
 //DRAG AND DROP CONTROLS
+const maxX = 4.5; // Maximum allowed X position
+const maxZ = 4.5; // Maximum allowed Z position
+
+
 const dndcontrols = new DragControls(objects, camera, renderer.domElement);
 dndcontrols.addEventListener("dragstart", function () {
   controls.enabled = false;
-  objects.position.y.set = 1;
+//   objects.position.y.set = 0.1;
 });
 
 dndcontrols.addEventListener ( 'drag', function( event ){
-    event.object.position.y = 0.1; // Set Y position to 1
-   })
-
+    event.object.position.y = 0.05; // Set Y position to 1
+});
 
 dndcontrols.addEventListener("dragend", function () {
     // objects.position.z=1
