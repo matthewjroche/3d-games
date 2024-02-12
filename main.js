@@ -141,7 +141,17 @@ var objects = [];
 const dndcontrols = new DragControls(objects, camera, renderer.domElement);
 dndcontrols.addEventListener("dragstart", function () {
   controls.enabled = false;
+  objects.position.y.set = 1;
 });
+
+dndcontrols.addEventListener ( 'drag', function( event ){
+    event.object.position.y = 0.1; // Set Y position to 1
+   })
+
+
 dndcontrols.addEventListener("dragend", function () {
+    // objects.position.z=1
+    // objects.position.y = 1;
+
   controls.enabled = true;
 });
