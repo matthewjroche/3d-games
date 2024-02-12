@@ -25,7 +25,6 @@ var settings = {
       blackmesh.position.set(0.1, 0.05, 0.1);
       scene.add(blackmesh);
       objects.push(blackmesh);
-      console.log(objects);
     });
   },
 
@@ -42,6 +41,12 @@ var settings = {
       objects.push(whitemesh);
     });
   },
+
+  reset:function(objects, whitemesh, blackmesh){
+    scene.remove(whitemesh,blackmesh);
+    console.log("Reset")
+
+  }
 };
 
 scene.background = new THREE.Color(settings.background_colour);
@@ -56,6 +61,7 @@ gui
   })
   .name("Background colour")
   .listen();
+
 
 //CAMERA
 const camera = new THREE.PerspectiveCamera(
@@ -134,6 +140,8 @@ gui
 
 gui.add(settings, "blackstone").name("Add Black Stone");
 gui.add(settings, "whitestone").name("Add White Stone");
+gui.add(settings, "reset").name("Reset stones")
+
 
 var objects = [];
 
@@ -158,3 +166,5 @@ dndcontrols.addEventListener("dragend", function () {
 
   controls.enabled = true;
 });
+
+
