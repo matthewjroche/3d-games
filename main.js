@@ -3,6 +3,7 @@ import { GUI } from "dat.gui";
 import { OrbitControls } from "/node_modules/three/examples/jsm/controls/OrbitControls.js";
 import { STLLoader } from "/node_modules/three/examples/jsm/loaders/STLLoader";
 import { DragControls } from "/node_modules/three/examples/jsm/controls/DragControls.js";
+import { Object3D } from "three";
 
 var objects = [];
 //SCENE
@@ -42,10 +43,10 @@ var settings = {
     });
   },
 
-  reset:function(objects, whitemesh, blackmesh){
-    scene.remove(whitemesh,blackmesh);
-    console.log("Reset")
-
+  reset:function(){
+    while(scene.children.length > 0){ 
+        scene.remove(scene.children[0]); 
+    }
   }
 };
 
@@ -140,7 +141,7 @@ gui
 
 gui.add(settings, "blackstone").name("Add Black Stone");
 gui.add(settings, "whitestone").name("Add White Stone");
-gui.add(settings, "reset").name("Reset stones")
+gui.add(settings, "reset").name("Reset all")
 
 
 var objects = [];
