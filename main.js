@@ -4,6 +4,13 @@ import { OrbitControls } from "/node_modules/three/examples/jsm/controls/OrbitCo
 import { STLLoader } from "/node_modules/three/examples/jsm/loaders/STLLoader";
 import { DragControls } from "/node_modules/three/examples/jsm/controls/DragControls.js";
 import { Object3D } from "three";
+import Stats from 'stats.js'
+
+var stats = new Stats();
+stats.showPanel( 1 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild( stats.dom );
+
+
 
 var objects = [];
 //SCENE
@@ -97,6 +104,11 @@ function animate() {
   requestAnimationFrame(animate);
   controls.update();
   renderer.render(scene, camera);
+  stats.begin()
+
+    // ...
+
+    stats.end()
 }
 animate();
 
